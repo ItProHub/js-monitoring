@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js monitoring</title>
+    <script src="utils.js"></script>
+    <script src="data.js"></script>
+    <script src="tracker.js"></script>
+</head>
+<body>
+<h1>js monitoring</h1>
+
+<button id="error-btn">点击事件</button>
+<script>
+  document.getElementById('error-btn').onclick = function() {
+    fetch('http://localhost:8880/').then(res => {
+        throw new Error('手动触发的错误！');
+    });
+  };
+</script>
+</body>
+</html>
