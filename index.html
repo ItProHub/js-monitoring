@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>js monitoring</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="utils.js"></script>
     <script src="data.js"></script>
     <script src="tracker.js"></script>
@@ -13,12 +14,35 @@
 <h1>js monitoring</h1>
 
 <button id="error-btn">点击事件</button>
+<button id="stopPropagation">阻止冒泡</button>
+
+<div id="container">
+    <!-- 动态元素将被插入到这里 -->
+  </div>
+  <button id="add">添加一个可监控按钮</button>
+  
 <script>
-  document.getElementById('error-btn').onclick = function() {
-    fetch('http://localhost:8880/').then(res => {
+    $('#stopPropagation').on('click', function(e) {
+        e.preventDefault();
+    });
+    $('#error-btn').on('click', function() {
+        fetch('http://localhost:8880/').then(res => {
         throw new Error('手动触发的错误！');
     });
-  };
+    });
+//   document.getElementById('error-btn').onclick = function(e) {
+//     fetch('http://localhost:8880/').then(res => {
+//         throw new Error('手动触发的错误！');
+//     });
+//   };
+
+    // 模拟动态插入按钮
+    $("#add").on('click', function(e) {
+        const btn = document.createElement('button');
+        btn.innerText = '我是新加的按钮';
+        btn.setAttribute('data-track', 'dynamic-button');
+        container.appendChild(btn);
+    });
 </script>
 </body>
 </html>

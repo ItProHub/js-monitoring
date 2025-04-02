@@ -12,9 +12,13 @@ function report(data) {
       type: 'click',
       tag: target.tagName,
       id: target.id,
-      classes: target.classList.toString()
+      classList: Array.from(target.classList),
+      text: target.innerText.trim().slice(0, 50), // 限制50字符，避免数据过长
+      timestamp: new Date().toISOString(),
+      pageX: e.pageX,
+      pageY: e.pageY
     });
-  });
+  }, true);
   
   // 拦截Fetch请求
   const originalFetch = window.fetch;
@@ -99,7 +103,7 @@ observer.observe(document, { childList: true, subtree: true });
 
 const pageLoadReport = (data) => {
     // 获取时间内的资源
-    const res = getLoadedResource(_.lastResourceIndex, data.t, __tracker_ts__, _.startTime);
+    const res = getLoadedResource(_.lastResourceIndex, data.t, _.startTime, __tracker_ts__);
     // 组装page_load事件的tags字段
     const pageLoadEventTags = {
       du: data.t,
